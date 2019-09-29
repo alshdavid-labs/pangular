@@ -3,6 +3,7 @@
   "workspaces": [
     "compiler",
     "core",
+    "platform",
     "sandbox"
   ]
 }
