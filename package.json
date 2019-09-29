@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "workspaces": [
+    "compiler",
+    "core",
+    "sandbox"
+  ]
+}
