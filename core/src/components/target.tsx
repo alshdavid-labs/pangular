@@ -10,11 +10,16 @@ export enum PreactLifeCycle {
 export class Target extends Component<any, any> {
   state: any = {
     tag: Fragment,
+    children: [],
+    childrenFn: undefined,
     props: this.props.forwardedProps
   }
 
   componentDidMount() {
     this.props.$tag.subscribe(tag => this.setState({ tag }))
+    this.props.$children.subscribe(children => this.setState({ children }))
+    this.props.$childrenFn.subscribe(childrenFn => this.setState({ childrenFn }))
+
     this.props.$props.subscribe(props => {
       this.setState({ props })
     })
@@ -43,7 +48,7 @@ export class Target extends Component<any, any> {
     return h(
       this.state.tag, 
       props, 
-      this.props.forwardedChidlren
+      this.state.childrenFn || this.state.children
     )
   }
 }

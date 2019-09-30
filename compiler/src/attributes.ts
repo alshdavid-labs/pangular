@@ -1,4 +1,4 @@
-import { hasPropertyAndEventBinding, startsWithHash, hasHandlebars, hasEventBinding, hasPropertyBinding } from './matchers'
+import { isStructuralDirective ,hasPropertyAndEventBinding, startsWithHash, hasHandlebars, hasEventBinding, hasPropertyBinding } from './matchers'
 import { Container } from '@pangular/core'
 
 export function compileAttributes(OGAttrs: Record<string, string>, c: Container) {
@@ -24,6 +24,10 @@ export function compileAttributes(OGAttrs: Record<string, string>, c: Container)
       // buff.push(`ref: obtainRef('${k}')`)
       continue
     } 
+    if (isStructuralDirective(attr)) {
+      console.log('is structural')
+      continue
+    }
     if (hasHandlebars(attr)) {
       const k = attr.slice(1, -1)
       buff.push(`'${k}' : ctx.${value}`);

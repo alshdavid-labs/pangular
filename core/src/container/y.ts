@@ -10,9 +10,9 @@ export function y(tag: any, props: Record<string, any> = {}, ...children: any) {
     selectedChildren = children[0]
   }
   const directives = props._directives || []
-  if (directives.length === 0) {
-    return h(tag, props, children)
-  }
+  // if (directives.length === 0) {
+  //   return h(tag, props, children)
+  // }
   const settings = {
     tag,
     props,

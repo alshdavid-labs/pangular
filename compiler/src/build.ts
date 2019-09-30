@@ -4,6 +4,7 @@ import { HTMLTags } from './element-names'
 import { Container } from '@pangular/core'
 import { compileAttributes } from './attributes'
 import { replaceTemplates } from './matchers'
+import { preProcess } from './pre-process'
 
 const writeResult = (w: Writer, r: ParseResult, c: Container) => {
   if (r.type === 'text') {
@@ -12,6 +13,7 @@ const writeResult = (w: Writer, r: ParseResult, c: Container) => {
   }
   
   const attributes = compileAttributes(r.attrs, c)
+
   if (r.name === 'Fragment' || r.name === 'pg-template') {
     w.write(`y(Fragment, {}, `)
   } else if (r.name === 'slot') {
@@ -32,23 +34,12 @@ const writeResult = (w: Writer, r: ParseResult, c: Container) => {
 }
 
 export const build = (
-  results: ParseResult[], 
+  ast: ParseResult[], 
   container: Container
 ) => {
   const w = new Writer()
-  let target: ParseResult
-  if (results.length === 1) {
-    target = results[0]
-    target.attrs['#host'] = undefined
-  } else {
-    target = {
-      type: 'tag',
-      name: 'Fragment',
-      voidElement: false,
-      attrs: {},
-      children: results
-    }
-  }
+  const target = preProcess(ast)
+  console.log(ast)
   writeResult(w, target, container)
   const compiled = w.get().replace(/\n/g, '')
   const output = `({ y, Fragment, ctx, d, children }) => ${compiled}`

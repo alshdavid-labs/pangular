@@ -15,12 +15,14 @@ export class Container {
   $onDestroy = new Subject<void>()
   instanceKeys = []
   declarations: Record<string, any> = {}
+  $children = new BehaviorSubject<any>([])
+  $childrenFn = new BehaviorSubject<any>(undefined)
 
   constructor(
     public tag: any = Fragment,
     public props: any = {},
     public directives: any[] = [],
-    public children: any[] = []
+    public children: any = undefined,
   ) {
     this.$props = new BehaviorSubject(this.props)
     for (const directive of this.directives) {
@@ -58,6 +60,12 @@ export class Container {
     })
     this.$afterViewInit.subscribe(async () => {
       await this.$ref.pipe(first(e => e !== undefined)).toPromise()
+      if (directive.render) {
+        const template = directive.render()
+        console.log(template)
+        this.$childrenFn.next(template)
+        // this.over = this.children = [h(Fragment, {}, directive.render())] as any
+      }
       directive.ref = this.$ref.getValue()
       directive.afterViewInit && directive.afterViewInit()
     })
@@ -67,6 +75,9 @@ export class Container {
     forwardedProps?: Record<string, any>,
     forwardedChidlren?: any,
   ) {
+    if (forwardedChidlren) {
+      this.$children.next(forwardedChidlren)
+    }
     if (forwardedProps) {
       this.props = forwardedProps
       this.$props.next(this.props)
@@ -77,13 +88,15 @@ export class Container {
       $ref: this.$ref,
       $props: this.$props,
       $context: this.$context,
+      $children: this.$children,
+      $childrenFn: this.$childrenFn,
       forwardedProps: this.props,
-      forwardedChidlren,
+      forwardedChidlren: this.$children.value,
     }
     // return h(Target, props)
     return h(Fragment,{}, [
         h(ContextAccessor, props),
-        h(Target, props, this.children),
+        h(Target, props),
     ])
   }
 }
