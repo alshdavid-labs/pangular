@@ -19,7 +19,7 @@ const statsPlugin = process.argv.includes("--stats")
   : []
 
 module.exports = {
-  entry: path.join(__dirname, "/src/main.ts"),
+  entry: path.join(__dirname, "/src/main.tsx"),
   mode,
   watchOptions: {
     aggregateTimeout: 300,
