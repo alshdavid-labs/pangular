@@ -15,7 +15,11 @@
     "jsxFactory": "h",
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "paths": {
+      "@pangular/platform": ["../platform/src/index"],
+      "@pangular/core": ["../core/src/index"]
+    }
   },
   "include": ["src/**/*.ts", "tests/**/*.ts"],
   "exclude": ["node_modules", "build"]

@@ -36,11 +36,11 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
-  },
-  externals: {
-    '@pangular/core': '@pangular/core',
-    '@pangular/compiler': '@pangular/compiler'
+    extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      '@pangular/platform': path.resolve(__dirname, '..', 'platform', 'src', 'index.ts'),
+      '@pangular/core': path.resolve(__dirname, '..', 'core', 'src', 'index.ts'),
+    }
   },
   plugins: [
     ...statsPlugin
