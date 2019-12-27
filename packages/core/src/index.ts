@@ -1,3 +1,5 @@
 export * from './view-container'
+export * from './components'
 export * from './initializer'
 export * from './decorators'
+export * from './event-emitter'

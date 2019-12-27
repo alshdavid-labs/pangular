@@ -1,8 +1,7 @@
-import { h } from 'preact'
+import { h, Fragment } from 'preact'
 import { ViewContainer } from '../../view-container'
 import { y, Template } from '../../components'
 import { patchConstructor } from '../patches'
-import { Bundle } from '../../event-emitter'
 
 export type DecoratedComponent<T = {}> = ComponentRender & T
 
@@ -27,60 +26,25 @@ export interface ComponentOptions {
   template: ((props: TemplateProps) => void) | string | any
 }
 
-const initDeclarations = (declarations: any[] = []) => {
-  const result = {}
-  for (const Value of declarations) {
-    const value: ComponentRender = new Value()
-    if (Value.prototype.type === 'component') {
-      result[value._viewContainer.selector] = (props) => value._render(props)
-    }
-  }
-  return result
-}
-
 export function Component(options: ComponentOptions) {
   return patchConstructor('component', (instance: ComponentRender) => {
-    const subscription = new Bundle()
     const viewContainer = new ViewContainer()
     instance._viewContainer = viewContainer
     viewContainer.selector = options.selector
     viewContainer.declarations = initDeclarations(options.declarations)
-
-    let template = null
-    if (options.template.prototype.templateType === 'tagged-template') {
-      template = options.template(instance)
-    } else {
-      template = options.template
-    }
-
+    const template = getTemplate(instance, options)
     let fu = () => {}
-    const ctx = new Proxy(instance, {
-      set: (obj, prop, value) => {
-        obj[prop] = value
-        fu()
-        return true
-      },
-      get: (obj, prop) => {
-        return obj[prop]
-      }
-    })
+    const ctx = makeProxy(instance, fu)
 
     const baseProps = { 
       _useViewContainer: true,
       _viewContainer: viewContainer,
+      ctx,
+      y 
     }
     
-    const props = {
-      ctx, y 
-    }
-
-    viewContainer.$props.emit(props)
-
-    instance._render = () => y(
-      Template, 
-      { forceUpdate: forceUpdate => fu = forceUpdate }, 
-      y(template, baseProps)
-    )
+    viewContainer.$props.emit(baseProps)
+    instance._render = () => y(template, baseProps)
     
     const onInit = () => {
       instance.onInit && instance.onInit()
@@ -94,11 +58,40 @@ export function Component(options: ComponentOptions) {
       instance.onDestroy && instance.onDestroy()
     }
 
-    subscription.add(viewContainer.$onInit.subscribe(onInit))
-    subscription.add(viewContainer.$afterViewInit.subscribe(afterViewInit))
-    subscription.add(viewContainer.$onDestroy.subscribe(onDestroy))
+    viewContainer.$onInit.toPromise().then(onInit)
+    viewContainer.$afterViewInit.toPromise().then(afterViewInit)
+    viewContainer.$onDestroy.toPromise().then(onDestroy)
     return instance
   })
 }
 
+const makeProxy = (instance, onChange) => {
+  return new Proxy(instance, {
+    set: (obj, prop, value) => {
+      obj[prop] = value
+      onChange()
+      return true
+    },
+    get: (obj, prop) => {
+      return obj[prop]
+    }
+  })
+}
 
+const getTemplate = (instance: any, options: any) => {
+  if (options.template?.prototype?.templateType === 'tagged-template') {
+    return options.template(instance)
+  }
+  return options.template
+}
+
+const initDeclarations = (declarations: any[] = []) => {
+  const result = {}
+  for (const Value of declarations) {
+    const value: ComponentRender = new Value()
+    if (Value.prototype.type === 'component') {
+      result[value._viewContainer.selector] = (props) => value._render(props)
+    }
+  }
+  return result
+}

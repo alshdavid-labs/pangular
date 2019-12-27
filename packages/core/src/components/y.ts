@@ -4,7 +4,6 @@ import { ViewContainer} from '../view-container'
 
 export interface DefaultYProps {
   _directives?: any[]
-  _objectProxy?: any
   _useViewContainer?: boolean
   _viewContainer?: ViewContainer
 }
@@ -45,6 +44,7 @@ export const y = (
   } 
   if (useViewContainer === false) {
     // Skip VC init if unneeded
+    console.log('skip', props)
     return h(tag, props, children)
   }
   let vc: ViewContainer
@@ -52,9 +52,10 @@ export const y = (
     vc = props._viewContainer
     props._viewContainer = undefined
   } else {
+    console.log('vc')
     vc = new ViewContainer()
-    vc.$props.emit(props)
   }
+  vc.$props.emit(props)
   for (const directive of directives) {
     vc.addDirective(directive)
   }

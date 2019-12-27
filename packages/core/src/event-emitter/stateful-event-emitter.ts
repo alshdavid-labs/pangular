@@ -13,6 +13,10 @@ export class StatefulEventEmitter<T> implements Emitter<T> {
     return this.value
   }
 
+  toPromise() {
+    return this.internal.toPromise()
+  }
+
   subscribe(cb: callback<T>): Subscription {
     cb(this.value)
     return this.internal.subscribe(cb)

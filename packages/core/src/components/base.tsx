@@ -1,16 +1,19 @@
 import { ViewContainer } from '../view-container'
-import { Component, h } from 'preact'
+import { Component, h, VNode } from 'preact'
 import { DC } from './context'
 
-export class BaseContainer extends Component<any, any> {
-  vc: ViewContainer
+type BaseContainerProps = {
+  viewContainer: ViewContainer,
+  tag: any
+}
 
-  constructor(...args) {
-    super(...args)
-    this.vc = this.props.viewContainer || new ViewContainer()
-    this.state = {
-      props: this.vc.$props.getValue()
-    }
+export class BaseContainer extends Component<BaseContainerProps, {}> {
+  get vc(): ViewContainer {
+    return this.props.viewContainer
+  }
+
+  get forwardedProps(): any {
+    return this.vc.$props.getValue()
   }
 
   emitContext() {
@@ -23,14 +26,12 @@ export class BaseContainer extends Component<any, any> {
   componentWillMount() {
     this.emitContext()    
     this.vc.$props.subscribe(props => this.setState({ props }))
-    this.vc.$onInit.emit()
     this.vc.$onInit.complete()
   }
 
   componentDidMount() {
     this.emitContext()
     this.vc.children = this.props.children
-    this.vc.$afterViewInit.emit()
     this.vc.$afterViewInit.complete()
   }
 
@@ -40,7 +41,6 @@ export class BaseContainer extends Component<any, any> {
   }
 
   componentWillUnmount() {
-    this.vc.$onDestroy.emit()
     this.vc.$onDestroy.complete()
   }
 
@@ -62,7 +62,7 @@ export class BaseContainer extends Component<any, any> {
   render() {
     this.emitContext()
     const props = {
-      ...this.state.props,
+      ...this.forwardedProps,
       ref: el => this.getRef(el),
       d: this.getDeclaration,
       _directives: undefined,

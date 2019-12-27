@@ -1,6 +1,14 @@
-import { Component } from '@pangular/core'
+import { Component, Input } from '@pangular/core'
 import { html } from '@pangular/compiler'
-import { NestedComponent } from './nested.component'
+
+@Component({
+  selector: 'app-nested',
+  template: html`<div>Nested: {{ value }}</div>`
+})
+export class NestedComponent {
+  @Input()
+  public value = 'nested-default' 
+}
 
 @Component({
   selector: 'app-root',
@@ -8,17 +16,10 @@ import { NestedComponent } from './nested.component'
     NestedComponent
   ],
   template: html`<div>
-    <app-nested [value]="value" />
-    <input
-      [value]="value"
-      (onInput)="value = $event.target.value"/>
+    <app-nested [value]="value"/>
   </div>`
 })
 export class RootComponent {
-  value = ''
-
-  setValue(e: any) {
-    this.value = e.target.value
-  }
+  value = 'from root'
 }
 

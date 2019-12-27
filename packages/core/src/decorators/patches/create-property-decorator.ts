@@ -24,9 +24,6 @@ export const createPropertyDecorator = (fn: (a: Hooks) => void) => {
         const ctx: HookContext = { 
           ctx: this, 
           setProperty: (value) => {
-            // if (this[key] === undefined) {
-            //   this._viewContainer.objectProxy.setProperty(key, value)
-            // }
             this[key] = value
           },
           getPropertyValue: () => this[key],

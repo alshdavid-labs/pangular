@@ -6,18 +6,7 @@ export function Input() {
     let subscription: Subscription
 
     onInit(({ ctx, setProperty, getPropertyValue }) => {
-      subscription = ctx._viewContainer.$props.subscribe(
-        (newValue) => {
-          console.log('tried to get input', newValue)
-          const currentValue = getPropertyValue()
-          const update = newValue[key]
-          if (currentValue === update) {
-            return
-          }
-          console.log(update)
-          setProperty(update)
-        }
-      )
+      console.log(ctx)
     })
 
     onDestroy(() => {

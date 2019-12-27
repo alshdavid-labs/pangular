@@ -10,10 +10,10 @@ export class ViewContainer {
   $onChange = new EventEmitter<void>()
   $onDestroy = new EventEmitter<void>()
   $ref = new StatefulEventEmitter<HTMLElement | undefined>(undefined)
+  $props = new StatefulEventEmitter<any>(undefined)
   directives: any[] = []
   selector: string
   declarations: {}
-  $props = new StatefulEventEmitter<any>(undefined)
   children: any
 
   addDirective(directive) {}
