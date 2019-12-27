@@ -1,23 +1,33 @@
-   void async function main(){
-    const path = window.location.pathname
-    if (path === '/') {
-      return
-    }
-    if (path === '/data-binding') {
-      return import('./cases/data-binding')
-    }
-    if (path === '/data-binding-directive') {
-      return import('./cases/data-binding-directive')
-    }
-    if (path === '/event-binding') {
-      return import('./cases/event-binding')
-    }
-    if (path === '/multiple-components') {
-      return import('./cases/multiple-components')
-    }
-    if (path === '/simple') {
-      return import('./cases/simple')
-    }
-  }()
+/** @jsx h */
+import { h, render } from 'preact'
 
- 
+const paths = [
+  '/data-binding',
+  '/data-binding-directive',
+  '/event-binding',
+  '/multiple-components',
+  '/simple'
+]
+
+const renderHome = () => {
+  const App = () => <div>{
+    paths.map(path => <div><a href={path}>{path}</a></div>)
+  }</div>
+  render(<App/>, document.body)
+}
+
+void async function main() {
+  const location = window.location.pathname
+  if (location === '/') {
+    return renderHome()
+  }
+  for (const path of paths) {
+    if (location === path) {
+      import('./cases' + path)
+      break
+    }
+  }
+}()
+
+
+
