@@ -74,7 +74,7 @@ export function Component(options: ComponentOptions) {
       ctx, y 
     }
 
-    viewContainer.$props.next(props)
+    viewContainer.$props.emit(props)
 
     instance._render = () => y(
       Template, 

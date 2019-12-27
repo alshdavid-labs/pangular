@@ -1,8 +1,9 @@
 import { callback, Subscription, Emitter } from "./emitter"
-import { Subject } from './subject'
+import { EventEmitter } from './event-emitter'
 
-export class BehaviorSubject<T> implements Emitter<T> {
-  private internal = new Subject<T>()
+// rxjs.BehaviorSubject
+export class StatefulEventEmitter<T> implements Emitter<T> {
+  private internal = new EventEmitter<T>()
   
   constructor(
     private value: T
@@ -17,9 +18,9 @@ export class BehaviorSubject<T> implements Emitter<T> {
     return this.internal.subscribe(cb)
   }
 
-  next(value: T) {
+  emit(value: T) {
     this.value = value
-    return this.internal.next(value)
+    return this.internal.emit(value)
   }
 
   complete() {

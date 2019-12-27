@@ -1,5 +1,5 @@
-export * from './behavior-subject'
+export * from './stateful-event-emitter'
 export * from './bundle'
 export * from './emitter'
 export * from './operators'
-export * from './subject'
+export * from './event-emitter'

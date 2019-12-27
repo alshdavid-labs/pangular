@@ -1,6 +1,7 @@
 import { callback, Subscription, Emitter } from "./emitter"
 
-export class Subject<T> implements Emitter<T> {
+// rxjs.Subject
+export class EventEmitter<T> implements Emitter<T> {
   private subscribers: Record<symbol, callback<T>> = {}
   private hasComplete = false
 
@@ -12,7 +13,7 @@ export class Subject<T> implements Emitter<T> {
     }
   }
 
-  next(value: T) {
+  emit(value: T) {
     if (this.hasComplete) {
       throw new Error('Cannot next on complete subject')
     }

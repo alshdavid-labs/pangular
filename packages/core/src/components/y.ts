@@ -1,4 +1,4 @@
-import { Component, h, createContext, ComponentType, Attributes, VNode } from 'preact'
+import { h, VNode } from 'preact'
 import { BaseContainer} from './base'
 import { ViewContainer} from '../view-container'
 
@@ -11,14 +11,14 @@ export interface DefaultYProps {
 
 export const y = (
   tag: any, 
-  initalProps: any, 
+  initialProps: any, 
   ...children: any[]
 ): VNode<any> => {
   let props: any
-  if (!initalProps) {
+  if (!initialProps) {
     props = {}
   } else {
-    props = initalProps
+    props = initialProps
   }
   let selectedChildren = children
   if (children.length && Array.isArray(children[0])) {
@@ -44,6 +44,7 @@ export const y = (
     props._useViewContainer = undefined
   } 
   if (useViewContainer === false) {
+    // Skip VC init if unneeded
     return h(tag, props, children)
   }
   let vc: ViewContainer
@@ -52,10 +53,14 @@ export const y = (
     props._viewContainer = undefined
   } else {
     vc = new ViewContainer()
-    vc.$props.next(props)
+    vc.$props.emit(props)
   }
   for (const directive of directives) {
     vc.addDirective(directive)
   }
-  return h(BaseContainer, { viewContainer: vc, tag }, selectedChildren)
+  return h(
+    BaseContainer, 
+    { viewContainer: vc, tag }, 
+    selectedChildren
+  )
 }

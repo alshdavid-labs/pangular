@@ -17,30 +17,30 @@ export class BaseContainer extends Component<any, any> {
     if (this.vc.$context.getValue() === this.context) {
       return
     }
-    this.vc.$context.next(this.context)
+    this.vc.$context.emit(this.context)
   }
 
   componentWillMount() {
     this.emitContext()    
     this.vc.$props.subscribe(props => this.setState({ props }))
-    this.vc.$onInit.next()
+    this.vc.$onInit.emit()
     this.vc.$onInit.complete()
   }
 
   componentDidMount() {
     this.emitContext()
     this.vc.children = this.props.children
-    this.vc.$afterViewInit.next()
+    this.vc.$afterViewInit.emit()
     this.vc.$afterViewInit.complete()
   }
 
   componentDidUpdate() {
     this.emitContext()
-    this.vc.$onChange.next()
+    this.vc.$onChange.emit()
   }
 
   componentWillUnmount() {
-    this.vc.$onDestroy.next()
+    this.vc.$onDestroy.emit()
     this.vc.$onDestroy.complete()
   }
 
@@ -48,7 +48,7 @@ export class BaseContainer extends Component<any, any> {
     if (!el) {
       return
     }
-    this.vc.$ref.next(el)
+    this.vc.$ref.emit(el)
   }
 
   getDeclaration = (name: string) => {
