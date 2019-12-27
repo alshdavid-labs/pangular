@@ -1,12 +1,6 @@
-import { ViewContainer } from './view-container'
+import { ViewContainer } from '../view-container'
 import { Component, h } from 'preact'
 import { DC } from './context'
-
-export class TemplateRender extends Component<any, any> {
-  render() {
-    return null
-  }
-}
 
 export class BaseContainer extends Component<any, any> {
   vc: ViewContainer
@@ -15,19 +9,18 @@ export class BaseContainer extends Component<any, any> {
     super(...args)
     this.vc = this.props.viewContainer || new ViewContainer()
     this.state = {
-      props: this.vc.$props.value
+      props: this.vc.$props.getValue()
     }
   }
 
   emitContext() {
-    if (this.vc.$context.value === this.context) {
+    if (this.vc.$context.getValue() === this.context) {
       return
     }
     this.vc.$context.next(this.context)
   }
 
   componentWillMount() {
-    // this.state.forwardedProps.viewContainerRef && this.state.forwardedProps.viewContainerRef(this.vc)
     this.emitContext()    
     this.vc.$props.subscribe(props => this.setState({ props }))
     this.vc.$onInit.next()
@@ -36,11 +29,6 @@ export class BaseContainer extends Component<any, any> {
 
   componentDidMount() {
     this.emitContext()
-    if (this.vc.objectProxy) {
-      this.vc.objectProxy.$value.subscribe((c) => {
-        this.forceUpdate()
-      })
-    }
     this.vc.children = this.props.children
     this.vc.$afterViewInit.next()
     this.vc.$afterViewInit.complete()

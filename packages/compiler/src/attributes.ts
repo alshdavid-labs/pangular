@@ -1,7 +1,7 @@
 import { isStructuralDirective ,hasPropertyAndEventBinding, startsWithHash, hasHandlebars, hasEventBinding, hasPropertyBinding } from './matchers'
-import { Container } from '@pangular/core'
+import { ViewContainer } from '@pangular/core'
 
-export function compileAttributes(OGAttrs: Record<string, string>, c: Container) {
+export function compileAttributes(OGAttrs: Record<string, string>, c: ViewContainer) {
   const attrs = {...OGAttrs}
   if (Object.keys(attrs).length === 0) {
     return '{}'

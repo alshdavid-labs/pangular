@@ -1,11 +1,10 @@
 import { Component, h, createContext, ComponentType, Attributes, VNode } from 'preact'
-import { BaseContainer} from './base-container'
-import { ViewContainer} from './view-container'
-import { ObjectProxy } from '../object-proxy'
+import { BaseContainer} from './base'
+import { ViewContainer} from '../view-container'
 
 export interface DefaultYProps {
   _directives?: any[]
-  _objectProxy?: ObjectProxy
+  _objectProxy?: any
   _useViewContainer?: boolean
   _viewContainer?: ViewContainer
 }

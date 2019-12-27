@@ -1,7 +1,8 @@
-import { h, Component as PComponent } from 'preact'
-import { ViewContainer, y } from '../../view-container'
+import { h } from 'preact'
+import { ViewContainer } from '../../view-container'
+import { y, Template } from '../../components'
 import { patchConstructor } from '../patches'
-import { Subscription } from 'rxjs'
+import { Bundle } from '../../event-emitter'
 
 export type DecoratedComponent<T = {}> = ComponentRender & T
 
@@ -37,20 +38,9 @@ const initDeclarations = (declarations: any[] = []) => {
   return result
 }
 
-class Template extends PComponent<any, any> {
-  componentDidMount() {
-    this.props.forceUpdate && 
-      this.props.forceUpdate(() => this.forceUpdate())
-  }
-
-  render() {
-    return this.props.children
-  }
-}
-
 export function Component(options: ComponentOptions) {
   return patchConstructor('component', (instance: ComponentRender) => {
-    const subscription = new Subscription()
+    const subscription = new Bundle()
     const viewContainer = new ViewContainer()
     instance._viewContainer = viewContainer
     viewContainer.selector = options.selector

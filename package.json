@@ -1,9 +1,7 @@
 {
   "private": true,
   "workspaces": [
-    "compiler",
-    "core",
-    "platform",
+    "packages/*",
     "sandbox"
   ]
 }

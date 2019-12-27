@@ -1,6 +1,5 @@
 import { ViewContainer } from '../../view-container'
 import { voidFn } from '../../common'
-import { ObjectProxy } from '../../object-proxy'
 
 export function patchConstructor(type = '', fn: (instance: any, constructor: any, ...args: any[]) => void) {
   return function(constructor: any): any {
@@ -19,7 +18,7 @@ export const patchBasics = (
   instance: any,
   container: ViewContainer,
   options: any,
-  objectProxy: ObjectProxy
+  objectProxy: any
 ) => {
   // container.selector = options.selector
   // instance._objectProxy = objectProxy

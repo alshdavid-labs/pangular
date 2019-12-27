@@ -36,7 +36,11 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
+    extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      '@pangular/core': path.resolve(__dirname, '..', 'packages', 'core', 'src', 'index.ts'),
+      '@pangular/compiler': path.resolve(__dirname, '..', 'packages', 'compiler', 'src', 'index.ts'),
+    }
   },
   externals: {
     '@pangular/core': '@pangular/core',

@@ -18,8 +18,8 @@
     "allowSyntheticDefaultImports": true,
     "paths": {
       "~/*": ["src/*"],
-      "@pangular/platform": ["../packages/platform/src"],
-      "@pangular/core": ["../packages/core/src"],
+      "@pangular/platform": ["../packages/platform/src/index.ts"],
+      "@pangular/core": ["../packages/core/src/index.ts"],
       "@pangular/compiler": ["../packages/compiler/src/index.ts"]
     }
   },

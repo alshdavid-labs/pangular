@@ -8,7 +8,7 @@ import { NestedComponent } from './nested.component'
     NestedComponent
   ],
   template: html`<div>
-    <app-nested />
+    <app-nested [value]="value" />
     <input
       [value]="value"
       (onInput)="value = $event.target.value"/>

@@ -1,9 +1,7 @@
-import { BehaviorSubject, Subject } from 'rxjs'
-import { h, Fragment } from 'preact'
-import { ObjectProxy } from '../object-proxy'
+import { BehaviorSubject, Subject } from '../event-emitter'
 
 export class ViewContainer {
-  $tag = new BehaviorSubject<any>(Fragment)
+  $tag = new BehaviorSubject<any>(null)
   $context = new BehaviorSubject<any>(undefined)
   $onInit = new Subject<void>()
   $afterViewInit = new Subject<void>()
@@ -11,7 +9,6 @@ export class ViewContainer {
   $onDestroy = new Subject<void>()
   $ref = new BehaviorSubject<HTMLElement | undefined>(undefined)
   directives: any[] = []
-  objectProxy: ObjectProxy
   selector: string
   declarations: {}
   $props = new BehaviorSubject<any>(undefined)

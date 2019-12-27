@@ -1,12 +1,12 @@
 import { Writer } from './writer'
 import { ParseResult } from './parser'
 import { HTMLTags } from './element-names'
-import { Container } from '@pangular/core'
+import { ViewContainer } from '@pangular/core'
 import { compileAttributes } from './attributes'
 import { replaceTemplates } from './matchers'
 import { preProcess } from './pre-process'
 
-const writeResult = (w: Writer, r: ParseResult, c: Container) => {
+const writeResult = (w: Writer, r: ParseResult, c: ViewContainer) => {
   if (r.type === 'text') {
     w.write(`'${replaceTemplates(r.content!)}'`)
     return
@@ -35,7 +35,7 @@ const writeResult = (w: Writer, r: ParseResult, c: Container) => {
 
 export const build = (
   ast: ParseResult[], 
-  container: Container
+  container: ViewContainer
 ) => {
   const w = new Writer()
   const target = preProcess(ast)

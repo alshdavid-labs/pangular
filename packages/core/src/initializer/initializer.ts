@@ -1,5 +1,5 @@
 import { h, render } from 'preact'
-import { DCP } from '../view-container'
+import { DCP } from '../components'
 
 const makeID = () => ((Math.random() * 10000000).toFixed(0)).toString()
 
