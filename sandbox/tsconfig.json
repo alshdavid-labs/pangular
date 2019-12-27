@@ -13,10 +13,14 @@
     "esModuleInterop": true,
     "allowJs": true,
     "jsx": "react",
+    "jsxFactory": "y",
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["src/*"],
+      "@pangular/platform": ["../packages/platform/src"],
+      "@pangular/core": ["../packages/core/src"],
+      "@pangular/compiler": ["../packages/compiler/src/index.ts"]
     }
   },
   "exclude": [

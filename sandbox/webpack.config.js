@@ -19,7 +19,7 @@ const statsPlugin = process.argv.includes("--stats")
   : []
 
 module.exports = {
-  entry: path.join(__dirname, "/src/main.ts"),
+  entry: path.join(__dirname, "/src/main.tsx"),
   mode,
   watchOptions: {
     aggregateTimeout: 300,
@@ -43,7 +43,13 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
+    extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      '~': path.resolve('./src'),
+      '@pangular/platform': path.resolve(__dirname, '..', 'packages', 'platform', 'src', 'index.ts'),
+      '@pangular/core': path.resolve(__dirname, '..', 'packages', 'core', 'src', 'index.ts'),
+      '@pangular/compiler': path.resolve(__dirname, '..', 'packages', 'compiler', 'src', 'index.ts'),
+    }
   },
   plugins: [
     ...statsPlugin

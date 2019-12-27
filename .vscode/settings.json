@@ -1,0 +1,15 @@
+{
+  "files.exclude": {
+    "**/._*": true,
+    "**/.editorconfig": true,
+    "**/.gitignore": true,
+    "**/.npmignore": true,
+    "**/build": true,
+    "**/LICENSE": true,
+    "**/node_modules": true,
+    "**/README.md": true,
+    "**/tsconfig.json": true,
+    "**/yarn.lock": true,
+    "**/webpack.config.js": true
+  }
+}

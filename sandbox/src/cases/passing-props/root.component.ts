@@ -1,10 +1,14 @@
 import { Component } from '@pangular/core'
 import { html } from '@pangular/compiler'
+import { NestedComponent } from './nested.component'
 
 @Component({
   selector: 'app-root',
+  declarations: [
+    NestedComponent
+  ],
   template: html`<div>
-    <div>{{ value || 'Something something default' }}</div> 
+    <app-nested />
     <input
       [value]="value"
       (onInput)="value = $event.target.value"/>
