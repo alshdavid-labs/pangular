@@ -2,6 +2,7 @@
 import { h, render } from 'preact'
 
 const paths = [
+  '/',
   '/data-binding',
   '/data-binding-directive',
   '/event-binding',
@@ -9,25 +10,30 @@ const paths = [
   '/simple'
 ]
 
-const renderHome = () => {
-  const App = () => <div>{
-    paths.map(path => <div><a href={path}>{path}</a></div>)
-  }</div>
-  render(<App/>, document.body)
-}
+const App = () => <div 
+  style={{ position: 'fixed', bottom: 0, margin: '30px' }}>
+  {
+    paths.map(path => <a 
+      style={{ display: 'block', margin: '10px' }} 
+      href={path}>
+      {path}
+    </a>)
+  }
+</div>
 
-void async function main() {
-  const location = window.location.pathname
+render(<App/>, document.getElementById('nav'))
+
+const location = window.location.pathname
+for (const path of paths) {
   if (location === '/') {
-    return renderHome()
+    break
   }
-  for (const path of paths) {
-    if (location === path) {
-      import('./cases' + path)
-      break
-    }
+  if (location === path) {
+    import('./cases' + path)
+    break
   }
-}()
+}
+  
 
 
 

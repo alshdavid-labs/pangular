@@ -5,8 +5,6 @@ export const preProcess = (ast: ParseResult[]): ParseResult => {
   const clone = cloneResults(ast)
   // crawl(ast, past)
   clone[0].children[0].type = 'brokern'
-  console.log('ast', ast)
-  console.log('past', clone)
   const target = produceTarget(ast)
   return target
 }

@@ -1,4 +1,4 @@
-import { Subscription } from "rxjs";
+import { Subscription } from "../event-emitter";
 import { createPropertyDecorator } from './patches'
 
 export function Input() {

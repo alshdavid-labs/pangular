@@ -1,4 +1,3 @@
-import { Subscription } from "rxjs";
 import { createPropertyDecorator } from './patches'
 
 export function ContainerRef() {

@@ -17,7 +17,10 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["src/*"],
+      "@pangular/platform": ["../packages/platform/src/index.ts"],
+      "@pangular/core": ["../packages/core/src/index.ts"],
+      "@pangular/compiler": ["../packages/compiler/src/index.ts"]
     }
   },
   "exclude": [

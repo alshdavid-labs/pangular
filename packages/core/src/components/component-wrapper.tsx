@@ -1,6 +1,6 @@
 import { h, Fragment, Component } from 'preact'
 import { y } from '../container'
-import { Subscription } from 'rxjs'
+import { Subscription } from '../event-emitter'
 
 export class ComponentWrapper extends Component<any, any> {
   subscription: Subscription

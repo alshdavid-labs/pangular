@@ -23,20 +23,20 @@ export class Target extends Component<any, any> {
     this.props.$props.subscribe(props => {
       this.setState({ props })
     })
-    this.props.$lifecycle.next(PreactLifeCycle.didMount)
+    this.props.$lifecycle.emit(PreactLifeCycle.didMount)
   }
 
   componentDidUpdate() {
-    this.props.$lifecycle.next(PreactLifeCycle.didUpdate)
+    this.props.$lifecycle.emit(PreactLifeCycle.didUpdate)
   }
 
   componentWillUnmount() {
-    this.props.$lifecycle.next(PreactLifeCycle.willUnmount)
+    this.props.$lifecycle.emit(PreactLifeCycle.willUnmount)
   }
 
   getRef = (el: HTMLElement | undefined): void => {
     if (el) {
-      this.props.$ref.next(el)
+      this.props.$ref.emit(el)
     }
   }
 

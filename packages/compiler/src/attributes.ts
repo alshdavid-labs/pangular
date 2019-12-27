@@ -15,7 +15,7 @@ export function compileAttributes(OGAttrs: Record<string, string>, c: Container)
     }
   }
   const buff: string[] = [];
-  const declarations = c.declarations
+  const declarations = c.declarations || {}
   let directives: string[] = []
   for (const [ attr, value ] of Object.entries(attrs)) {
     if (startsWithHash(attr)) {

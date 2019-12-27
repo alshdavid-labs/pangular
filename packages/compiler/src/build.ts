@@ -39,7 +39,6 @@ export const build = (
 ) => {
   const w = new Writer()
   const target = preProcess(ast)
-  console.log(ast)
   writeResult(w, target, container)
   const compiled = w.get().replace(/\n/g, '')
   const output = `({ y, Fragment, ctx, d, children }) => ${compiled}`

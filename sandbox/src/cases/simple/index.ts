@@ -3,4 +3,4 @@ import { RootComponent } from './root.component'
 
 Initializer
   .rootComponent(RootComponent)
-  .attachTo(document.body)
+  .attachTo(document.getElementById('outlet'))

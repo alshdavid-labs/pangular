@@ -1,11 +1,11 @@
 import { h } from 'preact'
-import { Container, y } from '../container'
+import { Container } from '../container'
 import { reservedKeys } from './reserved-keys'
 import { createComponentWrapper } from '../components'
 import { patchConstructor } from './patches'
 import { patchBasics } from './patches'
 import { ObjectProxy } from '../object-proxy'
-import { Subscription } from 'rxjs'
+import { Bundle } from '../event-emitter'
 
 export type DecoratedComponent<T = {}> = ComponentRender & T
 
@@ -59,7 +59,7 @@ const setTemplate = (
 
 export function Component(options: ComponentOptions) {
   return patchConstructor('component', (instance, constructor) => {
-    const subscription = new Subscription()
+    const subscription = new Bundle()
     const proxy = new ObjectProxy(instance, reservedKeys)
     const container = new Container()
     const declarations = initDeclarations(options.declarations, proxy, container)

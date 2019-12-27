@@ -1,11 +1,10 @@
-import { BehaviorSubject, Observable } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { StatefulEventEmitter, EventEmitter } from '../event-emitter'
 
 export class ObjectProxy {
   public defaultIgnored = ['constructor', 'length', 'prototype']
-  public $value: BehaviorSubject<any>
-  public $proxy: Observable<any>
   private proxy: Record<string, any> = {}
+  public $value = new StatefulEventEmitter<any>(this.proxy)
+  public $proxy = new EventEmitter<any>()
 
   constructor(
     private instance: any,
@@ -16,10 +15,9 @@ export class ObjectProxy {
       this.proxy[key] = this.instance[key]
       this.defineProperty(this.instance, key)
     }
-    this.$value = new BehaviorSubject(this.proxy)
-    this.$proxy = this.$value.pipe(
-      map(() => this.dispenceProxy())
-    )
+    this.$value.subscribe(() => {
+      this.$proxy.emit(this.dispenceProxy())
+    })
   }
 
   public addProperty(key: string, value: any) {
@@ -29,7 +27,7 @@ export class ObjectProxy {
     // this.defineProperty(this.instance, key)
     // const update = { ...this.proxy }
     // this.proxy = update
-    // this.$value.next(this.proxy)
+    // this.$value.emit(this.proxy)
   }
 
   private defineProperty(target: any, key: any) {
@@ -39,7 +37,7 @@ export class ObjectProxy {
         const update = { ...this.proxy }
         update[key] = newValue
         this.proxy = update
-        this.$value.next(update)
+        this.$value.emit(update)
       }
     })
   }

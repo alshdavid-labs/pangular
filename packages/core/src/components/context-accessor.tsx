@@ -6,7 +6,7 @@ export class ContextAccessor extends Component<any, any> {
     if (this.props.$context.value === this.context) {
       return
     }
-    this.props.$context.next(this.context)
+    this.props.$context.emit(this.context)
   }
 
   componentDidMount() {
@@ -23,7 +23,7 @@ export class ContextAccessor extends Component<any, any> {
 
   render() {
     this.emitContext()
-    return <Fragment />
+    return h(Fragment, {})
   }
 }
 ContextAccessor.contextType = DC

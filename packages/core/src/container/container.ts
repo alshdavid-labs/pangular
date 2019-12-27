@@ -1,22 +1,21 @@
-import { BehaviorSubject, Subject } from "rxjs"
+import { StatefulEventEmitter, EventEmitter, first } from "../event-emitter"
 import { PreactLifeCycle, Target, ContextAccessor } from "../components"
 import { h, Fragment } from "preact"
-import { first } from "rxjs/operators"
 
 export class Container {
   selector: string | undefined
-  $lifecycle = new Subject<PreactLifeCycle>()
-  $tag = new BehaviorSubject<any>(Fragment)
-  $props: BehaviorSubject<any>
-  $ref = new BehaviorSubject<HTMLElement | undefined>(undefined)
-  $context = new BehaviorSubject<any>(undefined)
-  $onInit = new Subject<void>()
-  $afterViewInit = new Subject<void>()
-  $onDestroy = new Subject<void>()
+  $lifecycle = new EventEmitter<PreactLifeCycle>()
+  $tag = new StatefulEventEmitter<any>(Fragment)
+  $props: StatefulEventEmitter<any>
+  $ref = new StatefulEventEmitter<HTMLElement | undefined>(undefined)
+  $context = new StatefulEventEmitter<any>(undefined)
+  $onInit = new EventEmitter<void>()
+  $afterViewInit = new EventEmitter<void>()
+  $onDestroy = new EventEmitter<void>()
   instanceKeys = []
   declarations: Record<string, any> = {}
-  $children = new BehaviorSubject<any>([])
-  $childrenFn = new BehaviorSubject<any>(undefined)
+  $children = new StatefulEventEmitter<any>([])
+  $childrenFn = new StatefulEventEmitter<any>(undefined)
 
   constructor(
     public tag: any = Fragment,
@@ -24,33 +23,31 @@ export class Container {
     public directives: any[] = [],
     public children: any = undefined,
   ) {
-    this.$props = new BehaviorSubject(this.props)
+    this.$props = new StatefulEventEmitter(this.props)
     for (const directive of this.directives) {
       this.applyDirective(directive)
     }
     this.onComponentLifecycle(PreactLifeCycle.didMount).then(() => {
-      this.$onInit.next()
+      this.$onInit.emit()
       this.$onInit.complete()
-      this.$tag.next(this.tag)
+      this.$tag.emit(this.tag)
     })
     this.onComponentLifecycle(PreactLifeCycle.didUpdate).then(() => {
-      this.$afterViewInit.next()
+      this.$afterViewInit.emit()
       this.$afterViewInit.complete()
     })
-    this.$ref.pipe(first(e => e !== undefined)).subscribe(el => {
-      
-    })
+    // first(this.$ref, e => e !== undefined).then(console.log)
   }
 
   emitOutput(key: string, value: any) {
-    const fn = this.$props.value[key]
+    const fn = this.$props.getValue()[key]
     if (fn && typeof fn === 'function') {
       fn(value)
     }
   }
 
   onComponentLifecycle(eventName: PreactLifeCycle) {
-    return this.$lifecycle.pipe(first(event => event === eventName)).toPromise()
+    return first(this.$lifecycle, event => event === eventName)
   }
 
   applyDirective(directive) {
@@ -59,11 +56,10 @@ export class Container {
       directive.onInit && directive.onInit()
     })
     this.$afterViewInit.subscribe(async () => {
-      await this.$ref.pipe(first(e => e !== undefined)).toPromise()
+      await first(this.$ref, e => e !== undefined)
       if (directive.render) {
         const template = directive.render()
-        console.log(template)
-        this.$childrenFn.next(template)
+        this.$childrenFn.emit(template)
         // this.over = this.children = [h(Fragment, {}, directive.render())] as any
       }
       directive.ref = this.$ref.getValue()
@@ -76,11 +72,11 @@ export class Container {
     forwardedChidlren?: any,
   ) {
     if (forwardedChidlren) {
-      this.$children.next(forwardedChidlren)
+      this.$children.emit(forwardedChidlren)
     }
     if (forwardedProps) {
       this.props = forwardedProps
-      this.$props.next(this.props)
+      this.$props.emit(this.props)
     }
     const props = {
       $lifecycle: this.$lifecycle,
@@ -91,7 +87,7 @@ export class Container {
       $children: this.$children,
       $childrenFn: this.$childrenFn,
       forwardedProps: this.props,
-      forwardedChidlren: this.$children.value,
+      forwardedChidlren: this.$children.getValue(),
     }
     // return h(Target, props)
     return h(Fragment,{}, [

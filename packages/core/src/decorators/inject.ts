@@ -1,7 +1,4 @@
 import { createPropertyDecorator } from './patches'
-import { first, map } from 'rxjs/operators'
-import { Container } from '../container';
-
 
 function isConstructor(obj) {
   return !!obj.prototype && !!obj.prototype.constructor.name;
@@ -23,7 +20,7 @@ type InjectProps = ((params: any) => any)
 export function Inject(exec?: InjectProps | any) {
   return createPropertyDecorator(({ key, onInit, afterViewInit }) => {
     onInit(({ ctx, setProperty }) => {
-      const injectables = ctx._container.$context.value
+      const injectables = ctx._container.$context.getValue()
       const injectable = injectables[key]
       setProperty(injectable)
     })

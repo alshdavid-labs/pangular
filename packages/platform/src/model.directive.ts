@@ -18,7 +18,7 @@ export class BindModelDirective {
       return
     }
     this.value = value
-    this.bindModelChange.next(this.value)
+    this.bindModelChange.emit(this.value)
   }
   
   onInput = (event: any) => {
