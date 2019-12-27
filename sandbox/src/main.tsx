@@ -1,49 +1,23 @@
-/** @jsx y */
-
-import { y, Initializer, Component, Input } from './core'
-import { render, h } from 'preact'
-
-@Component({
-  selector: 'mega',
-  template: ({ ctx, y }) => <div>
-    Hello, { ctx.myProp }
-  </div>
-})
-class BComponent {
-  @Input()
-  myProp = ''
-}
-
-
-@Component({
-  selector: 'name',
-  declarations: [
-    BComponent
-  ],
-  template: ({ ctx, y, d }) => <div>
-    { y(d('mega'), { myProp: ctx.test }) }
-    <div 
-      _useViewContainer={false}>
-      {ctx.test}
-    </div>
-    <input 
-      value={ctx.test} 
-      onInput={e => ctx._s('test', e.target.value)}/>
-    <button onClick={$event => ctx.print($event)}>Ok</button>
-  </div>
-})
-class MyComponent {
-  test: string = 'ok'
-
-  print() {
-    console.log(this.test)
-  }
-}
-
-Initializer
-  .rootComponent(MyComponent)
-  .attachTo(document.body)
-  
-
+   void async function main(){
+    const path = window.location.pathname
+    if (path === '/') {
+      return
+    }
+    if (path === '/data-binding') {
+      return import('./cases/data-binding')
+    }
+    if (path === '/data-binding-directive') {
+      return import('./cases/data-binding-directive')
+    }
+    if (path === '/event-binding') {
+      return import('./cases/event-binding')
+    }
+    if (path === '/multiple-components') {
+      return import('./cases/multiple-components')
+    }
+    if (path === '/simple') {
+      return import('./cases/simple')
+    }
+  }()
 
  
