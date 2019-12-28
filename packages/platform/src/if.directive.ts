@@ -1,4 +1,4 @@
-import { Directive, Input, Children, TemplateFn } from '@pangular/core'
+import { Directive, Input, Template, TemplateFn } from '@pangular/core'
 
 @Directive({
   attribute: 'pgIf',
@@ -8,7 +8,7 @@ export class IfDirective {
   @Input()
   public pgIf: boolean
 
-  @Children()
+  @Template()
   private template: TemplateFn
 
   ngInit() {

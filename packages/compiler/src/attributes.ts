@@ -20,7 +20,6 @@ export function compileAttributes(_attrs: Record<string, string>, c: Container) 
   const declarations = c.declarations || {}
   let directives: string[] = []
   for (const [ attr, value ] of Object.entries(attrs)) {
-    console.log(attr, value)
     if (startsWithHash(attr)) {
       // TODO
       // const k = attr.slice(1, attr.length)
@@ -42,6 +41,10 @@ export function compileAttributes(_attrs: Record<string, string>, c: Container) 
       if (Object.keys(declarations).includes(k)) {
         directives.push(`d('${k}'),`)
       }
+      // if (k === '_ctx') {
+      //   buff.push(`'${k}' : ctx`);
+      //   continue
+      // }
       if (k === '_variables') {
         buff.push(`'${k}' : ${value}`);
         continue

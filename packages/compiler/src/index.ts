@@ -1,5 +1,4 @@
-import './prettier'
-
+import { print } from './prettier'
 import { parse } from './parser'
 import { build } from './build'
 import { Container } from '@pangular/core'
@@ -14,9 +13,7 @@ export const compile = (
 export function html(string: TemplateStringsArray) {
   function compiler(instance: Container) {
     const result = compile(string[0], instance)
-    if ((window as any).process) {
-      console.log((window as any).process(result))
-    }
+    print(result)
     return eval(result)
   }
   compiler.prototype.templateType = 'tagged-template'

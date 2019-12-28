@@ -1,4 +1,4 @@
-import { Directive, Input, Variables, Children, Child, TemplateFn } from '@pangular/core'
+import { Directive, Input, Variables, Template, Child, TemplateFn } from '@pangular/core'
 
 type ForDirectiveVariables = {
   $implicit: string,
@@ -16,7 +16,7 @@ export class ForDirective {
   @Variables()
   public variables: ForDirectiveVariables
 
-  @Children()
+  @Template()
   private template: TemplateFn
   
   render() {

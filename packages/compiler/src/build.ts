@@ -59,6 +59,7 @@ const unpackStructural = (r: ParseResult) => {
       } else {
         r.attrs[propertyBinding] = value
       }
+      // r.attrs['[_ctx]'] = null
       return
     }
   }
@@ -93,12 +94,12 @@ const writeResult = (w: Writer, r: ParseResult, c: Container) => {
   }
 
   if (structural) {
-    w.write('ctx => [')
+    w.write(`m(ctx, ctx => [`)
     for (let child of r.children || []) {      
       writeResult(w, child, c)
       w.write(", ")
     }
-    w.write('])')
+    w.write(']))')
   } else {
     w.write('[')
     for (let child of r.children || []) {
@@ -117,6 +118,6 @@ export const build = (
   const target = preProcess(ast)
   writeResult(w, target, container)
   const compiled = w.get().replace(/\n/g, '')
-  const output = `({ y, Fragment, Structural, ctx, d, children }) => ${compiled}`
+  const output = `({ y, Fragment, Structural, ctx, d, m, children }) => ${compiled}`
   return output
 }

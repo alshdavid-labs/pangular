@@ -1,5 +1,6 @@
 const path = require("path")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
+const DefinePlugin = require('webpack').DefinePlugin
 
 const environments = {
   prod: "production",
@@ -45,6 +46,11 @@ module.exports = {
     }
   },
   plugins: [
+    new DefinePlugin({
+      '__constants': JSON.stringify({
+        'MODE':  mode,
+      })
+    }),
     ...statsPlugin
   ]
 }

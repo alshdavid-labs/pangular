@@ -8,8 +8,8 @@
     "**/node_modules": true,
     "**/README.md": true,
     "**/yarn.lock": true,
-    "**/build": false,
-    "**/tsconfig.json": false,
-    "**/webpack.config.js": false
+    "**/build": true,
+    "**/tsconfig.json": true,
+    "**/webpack.config.js": true
   }
 }

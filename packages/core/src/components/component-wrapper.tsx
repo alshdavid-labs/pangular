@@ -27,6 +27,8 @@ export class ComponentWrapper extends Component<any, any> {
     return component
   }
 
+  mergeCTX = (ctx, fn: (mctx) => void) => (ictx) => fn({ ...ctx, ...ictx })
+
   render() {
     return h(this.props.template, { 
       y,
@@ -34,6 +36,7 @@ export class ComponentWrapper extends Component<any, any> {
       d: this.getDeclaration,
       ctx: this.state.ctx,
       children: this.props.children,
+      m: this.mergeCTX,
       Structural
     })
   }

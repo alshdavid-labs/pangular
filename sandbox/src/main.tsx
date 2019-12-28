@@ -8,12 +8,9 @@ const paths = [
   '/event-binding',
   '/multiple-components',
   '/simple',
-  '/for-directive/no-compiler',
-  '/for-directive/compact',
-  '/for-directive/expanded',
-  '/if-directive/no-compiler',
-  '/if-directive/compact',
-  '/if-directive/expanded',
+  '/for-directive',
+  '/for-directive-nested',
+  '/if-directive',
 ]
 
 const App = () => <div 
