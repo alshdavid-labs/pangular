@@ -17,8 +17,8 @@
     "allowSyntheticDefaultImports": true,
     "strictPropertyInitialization": false,
     "paths": {
-      "@pangular/core": ["../packages/core/src/index.ts"],
-      "@pangular/compiler": ["../packages/compiler/src/index.ts"]
+      "@pangular/core": ["../core/src/index.ts"],
+      "@pangular/compiler": ["../compiler/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts", "tests/**/*.ts"],

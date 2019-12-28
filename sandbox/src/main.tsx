@@ -7,7 +7,13 @@ const paths = [
   '/data-binding-directive',
   '/event-binding',
   '/multiple-components',
-  '/simple'
+  '/simple',
+  '/for-directive/no-compiler',
+  '/for-directive/compact',
+  '/for-directive/expanded',
+  '/if-directive/no-compiler',
+  '/if-directive/compact',
+  '/if-directive/expanded',
 ]
 
 const App = () => <div 

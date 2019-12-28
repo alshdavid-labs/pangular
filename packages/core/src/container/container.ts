@@ -60,7 +60,6 @@ export class Container {
       if (directive.render) {
         const template = directive.render()
         this.$childrenFn.emit(template)
-        // this.over = this.children = [h(Fragment, {}, directive.render())] as any
       }
       directive.ref = this.$ref.getValue()
       directive.afterViewInit && directive.afterViewInit()

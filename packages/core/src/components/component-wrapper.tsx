@@ -1,6 +1,7 @@
 import { h, Fragment, Component } from 'preact'
 import { y } from '../container'
 import { Subscription } from '../event-emitter'
+import { Structural } from './structural'
 
 export class ComponentWrapper extends Component<any, any> {
   subscription: Subscription
@@ -32,7 +33,8 @@ export class ComponentWrapper extends Component<any, any> {
       Fragment,
       d: this.getDeclaration,
       ctx: this.state.ctx,
-      children: this.props.children
+      children: this.props.children,
+      Structural
     })
   }
 }

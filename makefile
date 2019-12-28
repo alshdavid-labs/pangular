@@ -5,8 +5,12 @@ clean:
 	rm -r -f sandbox/public/build
 
 clean-hard:
-	git clean -d -f
-	git clean -d -f -X
+	make clean
+	rm -r -f node_modules
+	rm -r -f packages/core/node_modules
+	rm -r -f packages/compiler/node_modules
+	rm -r -f packages/platform/node_modules
+	rm -r -f sandbox/public/node_modules
 
 build:
 	cd packages/core && yarn build:prod

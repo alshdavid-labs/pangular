@@ -1,43 +1,37 @@
-// import { Directive, Child, Input } from '@pangular/core'
+import { Directive, Input, Children, Child, TemplateFn } from '@pangular/core'
 
-// @Directive({
-//   attribute: 'pgIf'
-// })
-// export class IfDirective {
-//   @Child()
-//   processor: any = undefined!
+type ForDirectiveVariables = {
+  $implicit: string,
+  index?: string,
+}
 
-//   @Input()
-//   pgFor: any[] = []
+@Directive({
+  attribute: 'pgFor'
+})
+export class ForDirective {
+  @Input()
+  public pgFor: any[] = []
 
-//   render() {
-//     const items: any[] = []
-//     for (const item of this.pgFor) {
-//       const result = this.processor({ item })
-//       items.push(result)
-//     }
-//   }
-// }
+  @Input()
+  public variables: ForDirectiveVariables
 
-// const T = /*html*/`
-//   <div>
-//     <div *pgFor="let value of values">Hi</div>
-//   </div>
-// `
+  @Children()
+  private template: TemplateFn
+  
+  render() {
+    const itemKey = this.variables.$implicit
+    const indexKey = this.variables.index
+    const items: Child[] = []
 
-// const T2 = /*html*/`
-//   <div>
-//     <Structural [pgFor]="values" [_let]="{ $implicit: 'value' }">
-//       <div>Hi</div>
-//     </Structural>
-//   </div>
-// `
+    for (const i in this.pgFor) {
+      const item = this.pgFor[i]
+      const output = { [itemKey]: item } 
+      if (indexKey) {
+        output[indexKey] = i
+      }
+      items.push(this.template(output))
+    }
 
-// const C = ({ ctx, tctx, d }) => {
-//   return y('div', {}, [
-//     y('div', {}, [ 'Ok' ]),
-//     y(Fragment, { pgIf: ctx.value, _tctx: tctx, _directives: [ d('pgIf') ] }, 
-//       tctx =>  y('div', {}, [ 'Hi' ])
-//     )
-//   ])
-// }
+    return items
+  }
+}
