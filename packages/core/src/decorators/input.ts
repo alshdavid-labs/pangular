@@ -1,7 +1,11 @@
 import { Subscription } from "../event-emitter";
 import { createPropertyDecorator } from './patches'
 
-export function Input() {
+export function Variables() {
+  return Input('_variables')
+}
+
+export function Input(value?: string) {
   return createPropertyDecorator(({ key, onInit, onDestroy }) => {
     let subscription: Subscription
 
@@ -9,7 +13,7 @@ export function Input() {
       subscription = ctx._container.$props.subscribe(
         (newValue) => {
           const currentValue = getPropertyValue()
-          const update = newValue[key]
+          const update = newValue[value || key]
           if (currentValue === update) {
             return
           }

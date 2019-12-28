@@ -1,7 +1,8 @@
 import { Directive, Input, Children, TemplateFn } from '@pangular/core'
 
 @Directive({
-  attribute: 'pgIf'
+  attribute: 'pgIf',
+  structural: true
 })
 export class IfDirective {
   @Input()
@@ -9,8 +10,13 @@ export class IfDirective {
 
   @Children()
   private template: TemplateFn
+
+  ngInit() {
+    console.log('init')
+  }
   
   render() {
+    console.log(this.template)
     if (!this.pgIf) {
       return null
     }

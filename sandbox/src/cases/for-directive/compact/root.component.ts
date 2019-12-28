@@ -8,7 +8,7 @@ import { html } from '@pangular/compiler'
     ForDirective
   ],
   template: html`<div>
-    <div *pgFor="let value of values; let index">
+    <div *pgFor="let value of items; let index">
       <div>Value: {{ value }}</div>
       <div>Index: {{ index }}</div>
       <hr>

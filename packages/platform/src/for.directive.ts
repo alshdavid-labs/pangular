@@ -1,4 +1,4 @@
-import { Directive, Input, Children, Child, TemplateFn } from '@pangular/core'
+import { Directive, Input, Variables, Children, Child, TemplateFn } from '@pangular/core'
 
 type ForDirectiveVariables = {
   $implicit: string,
@@ -6,23 +6,27 @@ type ForDirectiveVariables = {
 }
 
 @Directive({
-  attribute: 'pgFor'
+  attribute: 'pgFor',
+  structural: true,
 })
 export class ForDirective {
   @Input()
-  public pgFor: any[] = []
+  public pgFor: any[]
 
-  @Input()
+  @Variables()
   public variables: ForDirectiveVariables
 
   @Children()
   private template: TemplateFn
   
   render() {
+    if (!this.pgFor) {
+      throw new Error('[ForDirective] Array not supplied')
+    }
     const itemKey = this.variables.$implicit
     const indexKey = this.variables.index
     const items: Child[] = []
-
+    
     for (const i in this.pgFor) {
       const item = this.pgFor[i]
       const output = { [itemKey]: item } 
@@ -31,7 +35,7 @@ export class ForDirective {
       }
       items.push(this.template(output))
     }
-
+    
     return items
   }
 }

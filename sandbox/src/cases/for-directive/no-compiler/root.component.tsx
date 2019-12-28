@@ -1,16 +1,6 @@
 import { Component, Structural } from '@pangular/core'
 import { ForDirective } from '@pangular/platform'
 
-// Step 1 - Initial template (html)
-const Step1  = /*html*/`
-  <div>
-    <div pgFor="let value of values; let index">
-      <div>Value: {{ value }}</div>
-      <div>Index: {{ index }}</div>
-    </div>
-  </div>
-`
-
 @Component({
   selector: 'app-root',
   declarations: [
@@ -21,7 +11,7 @@ const Step1  = /*html*/`
       <Structural 
         _directives={[d('pgFor')]}
         pgFor={ctx.items} 
-        variables={{ 
+        _variables={{ 
           $implicit: 'value',
           index: 'index'
         }}>

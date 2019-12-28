@@ -9,14 +9,12 @@ import { html } from '@pangular/compiler'
   ],
   template: html`<div>
     <pg-structure
-      [pgFor]="values" 
-      [variables]="{ 
-        $implicit: 'value',
-        index: 'index'
-      }">
+      [pgFor]="items" 
+      [_variables]="{ $implicit: 'value', index: 'index' }">
       <div>
         <div>Value: {{ value }}</div>
         <div>Index: {{ index }}</div>
+        <hr>
       </div>
     </pg-structure>
   </div>`
