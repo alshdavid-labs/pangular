@@ -30,3 +30,19 @@ export const first = <T>(
     })
   })
 }
+
+export const filter = <T>(
+  e: Emitter<T>, 
+  predicate: (value: T) => boolean = () => true
+) => {
+  return {
+    subscribe: (cb: any) => {
+      return e.subscribe(value => {
+        const result = predicate(value)
+        if (result === true) {
+          cb()
+        }
+      })
+    }
+  }
+}

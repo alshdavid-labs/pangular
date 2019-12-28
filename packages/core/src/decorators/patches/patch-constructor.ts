@@ -19,7 +19,7 @@ export const patchBasics = (
   instance: any,
   container: Container,
   options: any,
-  objectProxy: ObjectProxy
+  objectProxy: any
 ) => {
   container.selector = options.selector
   instance._objectProxy = objectProxy

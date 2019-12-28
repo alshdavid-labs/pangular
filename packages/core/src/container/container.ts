@@ -1,4 +1,4 @@
-import { StatefulEventEmitter, EventEmitter, first } from "../event-emitter"
+import { StatefulEventEmitter, EventEmitter, first, filter } from "../event-emitter"
 import { PreactLifeCycle, Target, ContextAccessor } from "../components"
 import { h, Fragment } from "preact"
 

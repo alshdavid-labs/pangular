@@ -10,16 +10,23 @@ import { html } from '@pangular/compiler'
   template: html`
     <div>
       <div *pgIf="shouldShow">Hi</div>
-      <button (onClick)="toggle()">Toggle</button>
+      <button 
+        (onClick)="toggle()">
+        Toggle
+      </button>
     </div>
   `
 })
 export class RootComponent {
-  shouldShow = true
+  shouldShow = false
+
+  onInit() {
+    console.log(this.shouldShow)
+  }
 
   toggle() {
     this.shouldShow = !this.shouldShow
-    console.log('toggled')
+    console.log(this.shouldShow)
   }
 }
 

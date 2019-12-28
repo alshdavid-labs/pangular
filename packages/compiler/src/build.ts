@@ -94,7 +94,7 @@ const writeResult = (w: Writer, r: ParseResult, c: Container) => {
   }
 
   if (structural) {
-    w.write(`m(ctx, ctx => [`)
+    w.write(`(ctx => [`)
     for (let child of r.children || []) {      
       writeResult(w, child, c)
       w.write(", ")

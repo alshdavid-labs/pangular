@@ -1,3 +1,4 @@
+import { h, Fragment } from 'preact'
 import { Directive, Input, Template, TemplateFn } from '@pangular/core'
 
 @Directive({
@@ -10,15 +11,11 @@ export class IfDirective {
 
   @Template()
   private template: TemplateFn
-
-  ngInit() {
-    console.log('init')
-  }
-  
+ 
   render() {
-    console.log(this.template)
+    console.log('render')
     if (!this.pgIf) {
-      return null
+      return h(Fragment, {})
     }
     return this.template()
   }

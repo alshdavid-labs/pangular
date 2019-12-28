@@ -3,20 +3,16 @@ import { y } from '../container'
 import { Subscription } from '../event-emitter'
 import { Structural } from './structural'
 
-export class ComponentWrapper extends Component<any, any> {
-  subscription: Subscription
+type ComponentWrapperProps = {
+  proxy: any,
+  template: any,
+  declarations: any
+  forceUpdateDispenser: any,
+}
 
-  state = {
-    ctx: this.props.proxy.dispenceProxy()
-  }
-
-  componentDidMount() {
-    this.subscription = this.props.proxy.$proxy
-      .subscribe(ctx => this.setState({ ctx }))
-  }
-
-  componentWillUnmount() {
-    this.subscription.unsubscribe()
+export class ComponentWrapper extends Component<ComponentWrapperProps, any> {
+  componentDidMount(){
+    this.props.forceUpdateDispenser(() => this.forceUpdate())
   }
 
   getDeclaration = (name: string) => {
@@ -34,7 +30,7 @@ export class ComponentWrapper extends Component<any, any> {
       y,
       Fragment,
       d: this.getDeclaration,
-      ctx: this.state.ctx,
+      ctx: this.props.proxy,
       children: this.props.children,
       m: this.mergeCTX,
       Structural
@@ -43,5 +39,8 @@ export class ComponentWrapper extends Component<any, any> {
 }
 
 export const createComponentWrapper = (
-  proxy, template, declarations
-) => () => h(ComponentWrapper, { proxy, template, declarations })
+  proxy, 
+  template, 
+  declarations,
+  forceUpdateDispenser,
+) => () => h(ComponentWrapper, { proxy, template, declarations, forceUpdateDispenser })

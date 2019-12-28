@@ -30,10 +30,10 @@ export interface ComponentOptions {
 
 const initDeclarations = (
   declarations: any[] = [], 
-  proxy: ObjectProxy, 
+  proxy: any, 
   container: Container
 ) => {
-  const result = {}
+  const result: Record<string, any> = {}
   for (const Value of declarations) {
     const value = new Value()
     if (Value.prototype.type === 'directive') {
@@ -62,14 +62,27 @@ const setTemplate = (
 }
 
 export function Component(options: ComponentOptions) {
-  return patchConstructor('component', (instance, constructor) => {
+  return patchConstructor('component', instance => {
     const subscription = new Bundle()
-    const proxy = new ObjectProxy(instance, reservedKeys)
+    
+    let forceUpdate = () => {}
+
+    const proxy = new Proxy<any>({}, {
+      get: (obj, prop) => {
+        return instance[prop]
+      },
+      set: (obj, prop, newVal) => {
+        instance[prop] = newVal
+        forceUpdate()
+        return true
+      }
+    })
+
     const container = new Container()
     const declarations = initDeclarations(options.declarations, proxy, container)
     container.declarations = declarations
     options.template = setTemplate(options.template, container)
-    container.tag = createComponentWrapper(proxy, options.template, declarations)
+    container.tag = createComponentWrapper(proxy, options.template, declarations, f => forceUpdate = f)
     const hooks = patchBasics(instance, container, options, proxy)
 
     const onInit = () => {
@@ -87,7 +100,7 @@ export function Component(options: ComponentOptions) {
     subscription.add(container.$onInit.subscribe(onInit))
     subscription.add(container.$afterViewInit.subscribe(afterViewInit))
     subscription.add(container.$onDestroy.subscribe(onDestroy))
-    return instance
+    return proxy
   })
 }
 
