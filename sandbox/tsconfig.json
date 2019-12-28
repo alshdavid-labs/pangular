@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es6", 
-    "module": "esnext",  
+    "target": "es6",
+    "module": "esnext",
     "moduleResolution": "node",
     "baseUrl": "./",
     "lib": [
@@ -17,15 +17,24 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "~/*": ["src/*"],
-      "@pangular/platform": ["../packages/platform/src/index.ts"],
-      "@pangular/core": ["../packages/core/src/index.ts"],
-      "@pangular/compiler": ["../packages/compiler/src/index.ts"]
+      "~/*": [
+        "src/*"
+      ],
+      "@pangular/platform": [
+        "../packages/platform/src/index.ts"
+      ],
+      "@pangular/core": [
+        "../packages/core/src/index.ts"
+      ],
+      "@pangular/compiler": [
+        "../packages/compiler/src/index.ts"
+      ]
     }
   },
   "exclude": [
     "./webpack.config.js",
     "./node_modules",
-    "./public"
+    "./public",
+    "./off"
   ]
 }

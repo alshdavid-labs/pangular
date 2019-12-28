@@ -1,5 +1,6 @@
-import { ViewContainer } from '../../view-container'
+import { Container } from '../../container'
 import { voidFn } from '../../common'
+import { ObjectProxy } from '../../object-proxy'
 
 export function patchConstructor(type = '', fn: (instance: any, constructor: any, ...args: any[]) => void) {
   return function(constructor: any): any {
@@ -16,23 +17,23 @@ export function patchConstructor(type = '', fn: (instance: any, constructor: any
 
 export const patchBasics = (
   instance: any,
-  container: ViewContainer,
+  container: Container,
   options: any,
-  objectProxy: any
+  objectProxy: ObjectProxy
 ) => {
-  // container.selector = options.selector
-  // instance._objectProxy = objectProxy
-  // instance._container = container
-  // instance._render = (props: any) => container.getComponent(props)
-  // if (!instance.onInit) {
-  //   instance.onInit = voidFn()
-  // }
-  // if (!instance.afterViewInit) {
-  //   instance.afterViewInit = voidFn()
-  // }
-  // if (!instance.onDestroy) {
-  //   instance.onDestroy = voidFn()
-  // }
+  container.selector = options.selector
+  instance._objectProxy = objectProxy
+  instance._container = container
+  instance._render = (props: any) => container.getComponent(props)
+  if (!instance.onInit) {
+    instance.onInit = voidFn()
+  }
+  if (!instance.afterViewInit) {
+    instance.afterViewInit = voidFn()
+  }
+  if (!instance.onDestroy) {
+    instance.onDestroy = voidFn()
+  }
   return {
     onInit: () => instance.onInit.apply(instance), 
     afterViewInit: () => instance.afterViewInit.apply(instance), 

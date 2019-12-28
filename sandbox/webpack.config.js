@@ -26,7 +26,7 @@ module.exports = {
     poll: 1000
   },
   output: {
-    filename: "app/index.js",
+    filename: "build/index.js",
     path: path.join(__dirname, "public")
   },
   module: {

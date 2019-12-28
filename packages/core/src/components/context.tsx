@@ -1,6 +1,7 @@
-import { h, createContext } from "preact"
+import { createContext, h } from 'preact'
 
 type PreactComponent<T> = (props: T) => h.JSX.Element
+
 
 export const DC = createContext<any>({})
 

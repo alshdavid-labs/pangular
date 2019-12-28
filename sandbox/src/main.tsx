@@ -1,19 +1,45 @@
-void async function main(){
-  const path = window.location.pathname
-  if (path === '/') {
-    return
+/** @jsx h */
+import { h, render } from 'preact'
+
+const paths = [
+  '/',
+  '/data-binding',
+  '/data-binding-directive',
+  '/event-binding',
+  '/multiple-components',
+  '/simple',
+  '/for-directive/no-compiler',
+  '/for-directive/compact',
+  '/for-directive/expanded',
+  '/if-directive/no-compiler',
+  '/if-directive/compact',
+  '/if-directive/expanded',
+]
+
+const App = () => <div 
+  style={{ position: 'fixed', bottom: 0, margin: '30px' }}>
+  {
+    paths.map(path => <a 
+      style={{ display: 'block', margin: '10px' }} 
+      href={path}>
+      {path}
+    </a>)
   }
-  if (path === '/data-binding') {
-    return import('~/cases/data-binding')
+</div>
+
+render(<App/>, document.getElementById('nav'))
+
+const location = window.location.pathname
+for (const path of paths) {
+  if (location === '/') {
+    break
   }
-  if (path === '/passing-props') {
-    return import('~/cases/passing-props')
+  if (location === path) {
+    import('./cases' + path)
+    break
   }
-  if (path === '/no-compiler/container-simple') {
-    return import('~/cases/no-compiler/container-simple')
-  }
-  if (path === '/no-compiler/container-toggle') {
-    return import('~/cases/no-compiler/container-toggle')
-  }
-}()
+}
+  
+
+
 

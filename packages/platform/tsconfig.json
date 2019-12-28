@@ -6,7 +6,10 @@
     "outDir": "build",
     "moduleResolution": "node",
     "baseUrl": "./",
-    "lib": ["dom", "es2017"],
+    "lib": [
+      "dom",
+      "es2017"
+    ],
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
@@ -17,10 +20,20 @@
     "allowSyntheticDefaultImports": true,
     "strictPropertyInitialization": false,
     "paths": {
-      "@pangular/core": ["../packages/core/src/index.ts"],
-      "@pangular/compiler": ["../packages/compiler/src/index.ts"]
+      "@pangular/core": [
+        "../core/src/index.ts"
+      ],
+      "@pangular/compiler": [
+        "../compiler/src/index.ts"
+      ]
     }
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts"],
-  "exclude": ["node_modules", "build"]
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "build"
+  ]
 }

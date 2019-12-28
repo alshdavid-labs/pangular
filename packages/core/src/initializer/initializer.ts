@@ -1,30 +1,18 @@
 import { h, render } from 'preact'
-import { DCP } from '../components'
+import { DCP } from '../components/context'
 
 const makeID = () => ((Math.random() * 10000000).toFixed(0)).toString()
 
-interface ComponentDenitializer {
-  destroy(): void
-}
-
-interface ComponentInitializer {
-  component: any
-  injectables: Record<string, any>
-  rootComponent(component: any): ComponentInitializer
-  provide(injectables: Record<string, any> | Array<any>): ComponentInitializer
-  attachTo(outlet: HTMLElement): ComponentDenitializer
-}
-
-export const Initializer: ComponentInitializer = {
+export const Initializer = {
   component: undefined,
   injectables: {},
 
-  rootComponent(component) {
+  rootComponent(component: any) {
     this.component = component
     return this
   },
 
-  provide(injectables) {
+  provide(injectables: Record<string, any> | Array<any>) {
     if (Array.isArray(injectables)) {
       for (const injectable of injectables) {
         this.injectables[makeID()] = injectable
@@ -38,12 +26,12 @@ export const Initializer: ComponentInitializer = {
     return this
   },
 
-  attachTo(outlet) {
+  attachTo(outlet: HTMLElement) {
     if (!this.component) {
       throw new Error('Please insert component')
     }
     const component = new (this.component as any)()
-    const C = () => component._render()
+    const C = () => component._container.getComponent()
     if (this.injectables) {
       const app = h(
         DCP, 

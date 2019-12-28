@@ -4,12 +4,12 @@
     "**/.editorconfig": true,
     "**/.gitignore": true,
     "**/.npmignore": true,
-    "**/build": true,
     "**/LICENSE": true,
     "**/node_modules": true,
     "**/README.md": true,
     "**/yarn.lock": true,
+    "**/build": false,
     "**/tsconfig.json": false,
-    "**/webpack.config.js": true
+    "**/webpack.config.js": false
   }
 }

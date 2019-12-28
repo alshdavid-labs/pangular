@@ -1,3 +1,17 @@
+clean:
+	rm -r -f packages/core/build
+	rm -r -f packages/compiler/build
+	rm -r -f packages/platform/build
+	rm -r -f sandbox/public/build
+
+clean-hard:
+	make clean
+	rm -r -f node_modules
+	rm -r -f packages/core/node_modules
+	rm -r -f packages/compiler/node_modules
+	rm -r -f packages/platform/node_modules
+	rm -r -f sandbox/public/node_modules
+
 build:
 	cd packages/core && yarn build:prod
 	cd packages/compiler && yarn build:prod
