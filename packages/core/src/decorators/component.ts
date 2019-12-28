@@ -28,7 +28,11 @@ export interface ComponentOptions {
   template: ((props: TemplateProps) => void) | string | any
 }
 
-const initDeclarations = (declarations: any[] = [], proxy: ObjectProxy, container: Container) => {
+const initDeclarations = (
+  declarations: any[] = [], 
+  proxy: ObjectProxy, 
+  container: Container
+) => {
   const result = {}
   for (const Value of declarations) {
     const value = new Value()
