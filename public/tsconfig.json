@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["dom", "ESNext"],
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "baseUrl": "./",
+    "paths": {
+      "@pangular/core": ["../pangular/core/index"],
+      "@pangular/compiler": ["../pangular/compiler/src/index"],
+      "@pangular/platform": ["../pangular/platform/index"]
+    }
+  }
+}
